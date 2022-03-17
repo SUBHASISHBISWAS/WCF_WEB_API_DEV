@@ -23,27 +23,10 @@ namespace CourseLibrary
         }
 
         [HttpGet()]
+        [HttpHead]
         public ActionResult<IEnumerable<AuthorDto>> GetAuthors()
         {
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
-
-            /*
-            var authors = new List<AuthorDto>();
-
-            authorsFromRepo.ToList().ForEach(author =>
-            {
-
-                authors.Add(new AuthorDto()
-                {
-                    Id = author.Id,
-                    Name = $"{author.FirstName} {author.LastName}",
-                    MainCategory = author.MainCategory,
-                    Age = author.DateOfBirth.GetCurrentAge()
-                });
-            });
-
-            */
-
             return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
         }
 
