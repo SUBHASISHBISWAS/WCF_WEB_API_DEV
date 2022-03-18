@@ -1,5 +1,6 @@
 ﻿using CourseLibrary.API.DbContexts;
-using CourseLibrary.API.Entities; 
+using CourseLibrary.API.Entities;
+using CourseLibrary.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,17 +123,28 @@ namespace CourseLibrary.API.Services
             return _context.Authors.ToList<Author>();
         }
 
-        public IEnumerable<Author> GetAuthors(string mainCategory)
+        public IEnumerable<Author> GetAuthors(AuthorResourceParameters authorResourceParameters)
         {
-            if (string.IsNullOrWhiteSpace(mainCategory))
+            if (string.IsNullOrWhiteSpace(authorResourceParameters.MainCategory) && string.IsNullOrWhiteSpace(authorResourceParameters.SerachQuery))
             {
                 return GetAuthors();
             }
 
-            mainCategory = mainCategory.Trim();
+            var collection = _context.Authors as IQueryable<Author>;
+            if (!string.IsNullOrWhiteSpace(authorResourceParameters.MainCategory))
+            {
+                var mainCategory = authorResourceParameters.MainCategory.Trim();
+                collection= collection.Where(author => author.MainCategory == mainCategory);
+            }
 
-            return _context.Authors.Where(author => author.MainCategory == mainCategory).ToList();
-            
+            if (!string.IsNullOrWhiteSpace(authorResourceParameters.SerachQuery))
+            {
+                var serachQuery = authorResourceParameters.SerachQuery.Trim();
+                collection = collection.Where(author => author.MainCategory.Contains(serachQuery)||
+                author.FirstName.Contains(serachQuery)||author.LastName.Contains(serachQuery));
+            }
+
+            return collection.ToList();
         }
 
         public IEnumerable<Author> GetAuthors(IEnumerable<Guid> authorIds)
