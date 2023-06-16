@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace Marvin.IDP;
 
@@ -26,8 +27,17 @@ public static class Config
                     AllowedGrantTypes = GrantTypes.Code,
                     RedirectUris = new List<string>()
                     {
-                        "https://localhost:5001/signin-oidc"
+                        "https://localhost:5002/signin-oidc"
                     },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    }
                 }
             };
 }
