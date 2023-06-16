@@ -18,5 +18,16 @@ public static class Config
 
     public static IEnumerable<Client> Clients =>
         new Client[]
-            { };
+            { 
+                new Client()
+                {
+                    ClientName= "Image Gallery",
+                    ClientId = "imagegalleryclient",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:5001/signin-oidc"
+                    },
+                }
+            };
 }
