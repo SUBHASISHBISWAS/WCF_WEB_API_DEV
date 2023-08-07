@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
-    .AddJsonOptions(configure => 
+    .AddJsonOptions(configure =>
         configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 // create an HttpClient used for accessing the API
@@ -28,13 +28,18 @@ AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, option =>
 
     option.Authority = "https://localhost:5001/";
     option.ClientId = "imagegalleryclient";
-    option.ClientSecret="secret";
+    option.ClientSecret = "secret";
     option.ResponseType = "code";
     option.Scope.Add("openid");
     option.Scope.Add("profile");
     option.CallbackPath = new PathString("/signin-oidc");
     option.SaveTokens = true;
-
+    // SignedOutCallbackPath: default = host :port/signout-callback-oidc.
+    // Must match with the post logout redirect URI at IDP client config if 
+    // you want to automatically return to the application after logging out of IdentityServer.
+    // To change, set SignedOutCallbackPath
+    // eg: SignedOutCallbackPath = "pathaftersignout"
+    //option.SignedOutCallbackPath()
 });
 
 var app = builder.Build();

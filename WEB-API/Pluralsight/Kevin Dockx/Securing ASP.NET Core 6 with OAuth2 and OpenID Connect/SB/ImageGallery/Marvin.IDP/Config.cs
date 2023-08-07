@@ -19,7 +19,7 @@ public static class Config
 
     public static IEnumerable<Client> Clients =>
         new Client[]
-            { 
+            {
                 new Client()
                 {
                     ClientName= "Image Gallery",
@@ -28,6 +28,10 @@ public static class Config
                     RedirectUris = new List<string>()
                     {
                         "https://localhost:5002/signin-oidc"
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        "https://localhost:5002/signout-callback-oidc"
                     },
                     AllowedScopes =
                     {
