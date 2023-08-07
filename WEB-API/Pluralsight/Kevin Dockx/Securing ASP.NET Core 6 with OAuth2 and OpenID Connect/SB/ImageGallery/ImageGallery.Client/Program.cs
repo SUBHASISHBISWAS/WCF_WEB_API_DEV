@@ -40,6 +40,7 @@ AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, option =>
     // To change, set SignedOutCallbackPath
     // eg: SignedOutCallbackPath = "pathaftersignout"
     //option.SignedOutCallbackPath()
+    option.GetClaimsFromUserInfoEndpoint = true;
 });
 
 var app = builder.Build();
